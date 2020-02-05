@@ -116,11 +116,56 @@ size_t ebcr(char x, size_t pi,  node** heads){
 }
 /******************************************************************************/
 
-/////////////////////// Sttrong Good Suffix Rule //////////////////////////////
+/////////////////////// Strong Good Suffix Rule //////////////////////////////
+/* Preprocessing for the strong good suffix rule */
+size_t* comp_N(const char* p){
+    size_t * out = malloc(sizeof(size_t));
+    return out;    
+}
+size_t* comp_L_dash(const char * p){
+    size_t * out = malloc(sizeof(size_t));
+    return out;
+}
+size_t* comp_l_dash(const char * p){
+    size_t * out = malloc(sizeof(size_t));
+    return out;
+}
 
-
+/* The strong good suffix rule */
+size_t sgsr(const char * p, int i){
+    return 0;
+}
 
 /*****************************************************************************/
+
+///////////////////// Boyer-Moore ////////////////////////////////////////////
+
+int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t m, int  n){
+    size_t occur_count = 0;
+    size_t k = n;
+    while(k < m){
+        size_t i = n;
+        size_t h = k;
+        while(i>=0 && p[i] == t[h]){
+            i = i-1; 
+            h = h-1;
+        }
+        if (i == 0){
+            occur_count += 1;
+            k = k + n - l[1];
+        }
+        else{
+            size_t ebcr_shift = ebcr(t[h],i,heads);
+            size_t sgsr_shift = sgsr(p,i);
+            size_t shift =  (ebcr_shift > sgsr_shift) ? ebcr_shift : sgsr_shift;
+            k = k + i - shift;
+        }
+    }
+    return occur_count;
+}
+
+/***************************************************************************/
+
 
 ////////////////////////////////////// Main ///////////////////////////////////
 
