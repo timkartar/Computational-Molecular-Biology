@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 
-////////////////// C translation of provided Z-algorithm code /////////////////////////
+////////////////// C translation of provided Z-algorithm code /////////////////
 //input : pattern p
 //output: pointer to size_t array of size length(p)
 
@@ -44,7 +44,12 @@ size_t* comp_z(const char* p){
     }
     return Z;
 }
-///////////////////// Extended Bad Character Rule  ///////////////////////////////////
+/*****************************************************************************/
+
+
+///////////////////// Extended Bad Character Rule  ////////////////////////////
+
+/* Utility Functions*/
 
 int chartoidx(char c){
     if(c == 'A'){return 0;}
@@ -53,13 +58,15 @@ int chartoidx(char c){
     if(c == 'T'){return 3;}
     return -1;
 }
+
 typedef struct listnode{
     struct listnode* head; 
     struct listnode* next; 
     size_t idx; 
 } node; 
 
-/* Print all the elements in the linked list */
+/* Print all the elements in a linked list */
+
 void printlist(node *head) {
     node *current_node = head;
     	while ( current_node != NULL) {
@@ -68,9 +75,11 @@ void printlist(node *head) {
     }
 }
 
+/* Preprocessing for Extended Bad Character Rule*/
+
 node** preproc_ebcr(const char* p, int n){
     const char * alpha = "ACGT";
-    node*  tails[4];//(node**)malloc(sizeof(node*)*strlen(alpha));
+    node*  tails[4];
     node**  heads = (node**)malloc(sizeof(node*)*strlen(alpha));
     for(int i = 0;i< (int)strlen(alpha);i++){
         tails[i] =  NULL;
@@ -92,12 +101,28 @@ node** preproc_ebcr(const char* p, int n){
     }
     return heads;
 }
-/*int ebcr(const char* s, const char* p, int si, int pi, int n, int m){
-    
-    return 0;
-}*/
 
-////////////////////////////////////// Main ///////////////////////////////////////////
+/* Extended Bad Character Rule */
+size_t ebcr(char x, size_t pi,  node** heads){
+    int idx_x = chartoidx(x);
+    node * x_list = heads[idx_x];
+    while(x_list != NULL){
+        if(x_list -> idx < pi){
+            return x_list -> idx;
+        }
+        x_list = x_list -> next;
+    }
+    return 0;
+}
+/******************************************************************************/
+
+/////////////////////// Sttrong Good Suffix Rule //////////////////////////////
+
+
+
+/*****************************************************************************/
+
+////////////////////////////////////// Main ///////////////////////////////////
 
 int main(){
     char * p = "AAAAACAGTTACCCAATGACA";
@@ -110,6 +135,7 @@ int main(){
         printf("\n");
         printlist(heads[i]);        
     }
+    printf("\n %zu \n\n",ebcr('C',5,heads));
     return EXIT_SUCCESS;
 }   
 
