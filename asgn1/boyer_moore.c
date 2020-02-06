@@ -117,14 +117,38 @@ size_t ebcr(char x, size_t pi,  node** heads){
 /******************************************************************************/
 
 /////////////////////// Strong Good Suffix Rule //////////////////////////////
-/* Preprocessing for the strong good suffix rule */
-size_t* comp_N(const char* p){
-    size_t * out = malloc(sizeof(size_t));
-    return out;    
+void strrev(char *str){
+    char c, *front, *back;
+
+    if(!str || !*str)
+        return;
+    for(front=str,back=str+strlen(str)-1;front < back;front++,back--){
+        c=*front;*front=*back;*back=c;
+    }
 }
-size_t* comp_L_dash(const char * p){
-    size_t * out = malloc(sizeof(size_t));
-    return out;
+/* Preprocessing for the strong good suffix rule */
+size_t* comp_N(char* p){
+    strrev(p);
+    printf("%s",p);
+    int n = strlen(p);
+    size_t* N = (size_t*)malloc(sizeof(size_t)*n);
+    size_t* Z = comp_z(p);
+    for(int i=0;i < n;i++){
+        N[i] = Z[n-i+1];
+    }
+    strrev(p);
+    printf("%s",p);
+    return N;    
+}
+size_t* comp_L_dash(char * p){
+    int n = strlen(p);
+    size_t * N  = comp_N(p);
+    size_t* L_dash = (size_t*)malloc(sizeof(size_t)*n);
+    for (int j =0;j<n;j++){
+        size_t i = n - N[j] + 1;
+        L_dash[i] = j;
+    }
+    return L_dash;
 }
 size_t* comp_l_dash(const char * p){
     size_t * out = malloc(sizeof(size_t));
