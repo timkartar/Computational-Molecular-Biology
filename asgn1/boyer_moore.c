@@ -15,6 +15,7 @@ int match (const char* s, size_t q, size_t i){
 }
 
 size_t* comp_z(const char* p){
+    printf("%s\n",p);
     size_t* Z = (size_t*)malloc(sizeof(size_t)*strlen(p));
     Z[0]=0;
     char* the_case = "0";
@@ -27,7 +28,7 @@ size_t* comp_z(const char* p){
             l = k;
         }
         else { //case 2: inside a Z-box
-            const size_t k_prime = k - 1;
+            const size_t k_prime = k - l;
             const size_t beta_len = r - k;
             if (Z[k_prime] < beta_len){ // Case 2a: stay inside z-box
                 the_case = "2a";
@@ -40,7 +41,7 @@ size_t* comp_z(const char* p){
                 l = k;
             }
         }
-        printf("%zu\t%zu\t%zu\t%zu\t%s\n",k+1,l+1,r,Z[k],the_case);
+        //printf("%zu\t%zu\t%zu\t%zu\t%s\n",k+1,l+1,r,Z[k],the_case);
     }
     return Z;
 }
@@ -97,7 +98,7 @@ node** preproc_ebcr(const char* p, int n){
         (*(tails + idx_in_alpha ))->next =  item;
         (*(tails + idx_in_alpha)) = (*(tails + idx_in_alpha)) -> next;
         }        
-        printf("%zu \n",heads[idx_in_alpha]->idx);
+        //printf("%zu \n",heads[idx_in_alpha]->idx);
     }
     return heads;
 }
@@ -117,27 +118,25 @@ size_t ebcr(char x, size_t pi,  node** heads){
 /******************************************************************************/
 
 /////////////////////// Strong Good Suffix Rule //////////////////////////////
-void strrev(char *str){
-    char c, *front, *back;
 
-    if(!str || !*str)
-        return;
-    for(front=str,back=str+strlen(str)-1;front < back;front++,back--){
-        c=*front;*front=*back;*back=c;
-    }
-}
 /* Preprocessing for the strong good suffix rule */
 size_t* comp_N(char* p){
-    strrev(p);
-    printf("%s",p);
     int n = strlen(p);
-    size_t* N = (size_t*)malloc(sizeof(size_t)*n);
-    size_t* Z = comp_z(p);
-    for(int i=0;i < n;i++){
-        N[i] = Z[n-i+1];
+    char* rev_p = (char*)malloc(sizeof(char)*n);
+    for(int i=0;i<n;i++){
+        rev_p[i] = p[n-i-1];
     }
-    strrev(p);
-    printf("%s",p);
+    size_t* N = (size_t*)malloc(sizeof(size_t)*n);
+    size_t* Z = comp_z(rev_p);
+    /*for(int i=0;i<n;i++){
+        printf("\n%zu\n",Z[i]);
+    }*/
+    for(int i=0;i < n;i++){
+        N[i] = Z[n-i-1];
+        //printf("\n%d\t%zu\n",n-i-1,N[i]);
+    }
+    printf("%s",rev_p);
+    free(rev_p);
     return N;    
 }
 size_t* comp_L_dash(char * p){
@@ -145,14 +144,16 @@ size_t* comp_L_dash(char * p){
     size_t * N  = comp_N(p);
     size_t* L_dash = (size_t*)malloc(sizeof(size_t)*n);
     for (int j =0;j<n;j++){
-        size_t i = n - N[j] + 1;
+        size_t i = n - N[j];
+        //printf("%zu\n",i);
         L_dash[i] = j;
     }
     return L_dash;
 }
-size_t* comp_l_dash(const char * p){
-    size_t * out = malloc(sizeof(size_t));
-    return out;
+size_t* comp_l_dash(char * p){
+    //int n = strlen(p);
+    size_t * N  = comp_N(p);
+    return N;
 }
 
 /* The strong good suffix rule */
@@ -194,17 +195,31 @@ int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t m
 ////////////////////////////////////// Main ///////////////////////////////////
 
 int main(){
-    char * p = "AAAAACAGTTACCCAATGACA";
+    char * p = "CATGATGAT";
     int n = strlen(p);
+    printf("n\t:%d\n",n);
     char * s = "AAAAACAGTTACCCAAAAACAGTAAAAACAGTTACCCAATGAAAAACAAAAACAGTTACCAAAAACAGTTACCCAATGACA";
     //int m = strlen(s);
-    //comp_z(p);
+    char* rev_p = (char*)malloc(sizeof(char)*n);
+      for(int i=0;i<n;i++){
+          rev_p[i] = p[n-i-1];
+      }
+
+    size_t* z = comp_z(rev_p);
     node** heads  = preproc_ebcr(p,n);
-    for(int i=0;i<4;i++){
-        printf("\n");
-        printlist(heads[i]);        
+    //for(int i=0;i<4;i++){
+    //    printf("\n");
+    //    printlist(heads[i]);        
+    //}
+    //printf("\n %zu \n\n",ebcr('C',5,heads));
+    size_t* N = comp_N(p);
+    size_t* L_dash = comp_L_dash(p);
+    for(int i=0;i<n;i++){
+        printf("\n%d\t%zu\t%zu\t%zu\n",i,z[i],N[i],L_dash[i]);
     }
-    printf("\n %zu \n\n",ebcr('C',5,heads));
+    //strrev(p);
+    printf("%s\n",rev_p);
+    printf("%s\n",p);
     return EXIT_SUCCESS;
 }   
 
