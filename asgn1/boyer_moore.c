@@ -157,8 +157,8 @@ int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t m
         else{
             size_t ebcr_shift = ebcr(t[h],i,heads);
             size_t sgsr_shift = sgsr(p,i);
-            size_t shift =  (ebcr_shift > sgsr_shift) ? ebcr_shift : sgsr_shift;
-            k = k + i - shift;
+            size_t shift_idx =  (ebcr_shift < sgsr_shift) ? ebcr_shift : sgsr_shift;
+            k = k + n - shift_idx;
         }
     }
     return occur_count;
