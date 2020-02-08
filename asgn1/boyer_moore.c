@@ -15,7 +15,7 @@ int match (const char* s, size_t q, size_t i){
 }
 
 size_t* comp_z(const char* p){
-    printf("%s\n",p);
+    //printf("%s\n",p);
     size_t* Z = (size_t*)malloc(sizeof(size_t)*strlen(p));
     Z[0]=0;
     char* the_case = "0";
@@ -41,7 +41,6 @@ size_t* comp_z(const char* p){
                 l = k;
             }
         }
-        //printf("%zu\t%zu\t%zu\t%zu\t%s\n",k+1,l+1,r,Z[k],the_case);
     }
     return Z;
 }
@@ -98,7 +97,6 @@ node** preproc_ebcr(const char* p, int n){
         (*(tails + idx_in_alpha ))->next =  item;
         (*(tails + idx_in_alpha)) = (*(tails + idx_in_alpha)) -> next;
         }        
-        //printf("%zu \n",heads[idx_in_alpha]->idx);
     }
     return heads;
 }
@@ -128,14 +126,9 @@ size_t* comp_N(char* p){
     }
     size_t* N = (size_t*)malloc(sizeof(size_t)*n);
     size_t* Z = comp_z(rev_p);
-    /*for(int i=0;i<n;i++){
-        printf("\n%zu\n",Z[i]);
-    }*/
     for(int i=0;i < n;i++){
         N[i] = Z[n-i-1];
-        //printf("\n%d\t%zu\n",n-i-1,N[i]);
     }
-    printf("%s",rev_p);
     free(rev_p);
     return N;    
 }
@@ -145,13 +138,11 @@ size_t* comp_L_dash(char * p){
     size_t* L_dash = (size_t*)malloc(sizeof(size_t)*n);
     for (int j =0;j<n;j++){
         size_t i = n - N[j];
-        //printf("%zu\n",i);
         L_dash[i] = j;
     }
     return L_dash;
 }
 size_t * comp_l_dash(char * p){
-    //int n = strlen(p);
     size_t * N  = comp_N(p);
     int n = strlen(p);
     size_t * l_d =  (size_t*)malloc(sizeof(size_t) * n);
@@ -162,48 +153,61 @@ size_t * comp_l_dash(char * p){
     for (int j = n-1;j >= 0;j--){
         if(N[j] == (size_t)j){
             while(i < n && j < n-i){
-                //printf("%d\t%d\n",i,j);
                 l_d[i] = j;
-                //l_d[i] = l_d[i] > (size_t)j ? l_d[i]:j;
                 i++;
             }
         }
-        //printf("%zu\n",i);
-        //l_dash[i] = j;
     }
     return l_d;
-
-    return N;
 }
 
 /* The strong good suffix rule */
-size_t sgsr(const char * p, int i){
-    return 0;
+size_t sgsr(size_t* L, size_t* l, int i,int n){
+    if(i == n){
+        return (size_t)n-1;
+    }
+    if(L[i]==0){
+        return l[i];    
+    }
+    return L[i];
 }
 
 /*****************************************************************************/
 
 ///////////////////// Boyer-Moore ////////////////////////////////////////////
 
-int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t m, int  n){
+int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t* L, size_t m, int  n){
     size_t occur_count = 0;
-    size_t k = n;
+    size_t k = n-1;
     while(k < m){
-        size_t i = n;
+        int i = n-1;
         size_t h = k;
         while(i>=0 && p[i] == t[h]){
             i = i-1; 
             h = h-1;
         }
-        if (i == 0){
+        if (i == -1){
+            printf("match found at %zu\n",k - n + 2);
             occur_count += 1;
-            k = k + n - l[1];
+            if(l[1] == 0){
+                k = k + 1;
+            }
+            else{
+                k = k + n - 1 - l[1];
+            }
         }
         else{
-            size_t ebcr_shift = ebcr(t[h],i,heads);
-            size_t sgsr_shift = sgsr(p,i);
-            size_t shift_idx =  (ebcr_shift < sgsr_shift) ? ebcr_shift : sgsr_shift;
-            k = k + n - shift_idx;
+            size_t ebcr_pos = ebcr(t[h],i,heads);
+            size_t ebcr_shift = ebcr_pos == 0 ? 1 : i - ebcr(t[h],i,heads);
+
+            size_t sgsr_shift = n - 1 - sgsr(L,l,i+1,n);
+            size_t shift =  (ebcr_shift > sgsr_shift) ? ebcr_shift : sgsr_shift;
+            if(i == n-1){
+                k = k + 1;
+            }
+            else{
+                k = k + shift;
+            }
         }
     }
     return occur_count;
@@ -215,33 +219,19 @@ int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t m
 ////////////////////////////////////// Main ///////////////////////////////////
 
 int main(){
-    char * p = "CATGATGAT";
+    char * p = "AACAGTT";
     int n = strlen(p);
-    printf("n\t:%d\n",n);
     char * s = "AAAAACAGTTACCCAAAAACAGTAAAAACAGTTACCCAATGAAAAACAAAAACAGTTACCAAAAACAGTTACCCAATGACA";
-    //int m = strlen(s);
-    /*char* rev_p = (char*)malloc(sizeof(char)*n);
-      for(int i=0;i<n;i++){
-          rev_p[i] = p[n-i-1];
-      }
-    */
-    //size_t* z = comp_z(rev_p);
+    size_t m = strlen(s);
+    
     node** heads  = preproc_ebcr(p,n);
-    //for(int i=0;i<4;i++){
-    //    printf("\n");
-    //    printlist(heads[i]);        
-    //}
-    //printf("\n %zu \n\n",ebcr('C',5,heads));
-    size_t* N = comp_N(p);
     size_t* l_dash = comp_l_dash(p);
+    printf(" ");
     size_t* L_dash = comp_L_dash(p);
 
-    for(int i=0;i<n;i++){
-        printf("\n%d\t%zu\t%zu\t%zu\n",i,N[i],L_dash[i],l_dash[i]);
-    }
-    //strrev(p);
-    //printf("%s\n",rev_p);
-    printf("%s\n",p);
+    int count = Boyer_Moore(s,p,heads,l_dash,L_dash,m,n);
+    printf("Number of matches found: %d\n",count);
+
     return EXIT_SUCCESS;
 }   
 
