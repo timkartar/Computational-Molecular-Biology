@@ -150,9 +150,29 @@ size_t* comp_L_dash(char * p){
     }
     return L_dash;
 }
-size_t* comp_l_dash(char * p){
+size_t * comp_l_dash(char * p){
     //int n = strlen(p);
     size_t * N  = comp_N(p);
+    int n = strlen(p);
+    size_t * l_d =  (size_t*)malloc(sizeof(size_t) * n);
+    for(int j=0;j<n;j++){
+        l_d[j]= 0;
+    }
+    int i = 0;
+    for (int j = n-1;j >= 0;j--){
+        if(N[j] == (size_t)j){
+            while(i < n && j < n-i){
+                //printf("%d\t%d\n",i,j);
+                l_d[i] = j;
+                //l_d[i] = l_d[i] > (size_t)j ? l_d[i]:j;
+                i++;
+            }
+        }
+        //printf("%zu\n",i);
+        //l_dash[i] = j;
+    }
+    return l_d;
+
     return N;
 }
 
@@ -200,12 +220,12 @@ int main(){
     printf("n\t:%d\n",n);
     char * s = "AAAAACAGTTACCCAAAAACAGTAAAAACAGTTACCCAATGAAAAACAAAAACAGTTACCAAAAACAGTTACCCAATGACA";
     //int m = strlen(s);
-    char* rev_p = (char*)malloc(sizeof(char)*n);
+    /*char* rev_p = (char*)malloc(sizeof(char)*n);
       for(int i=0;i<n;i++){
           rev_p[i] = p[n-i-1];
       }
-
-    size_t* z = comp_z(rev_p);
+    */
+    //size_t* z = comp_z(rev_p);
     node** heads  = preproc_ebcr(p,n);
     //for(int i=0;i<4;i++){
     //    printf("\n");
@@ -213,12 +233,14 @@ int main(){
     //}
     //printf("\n %zu \n\n",ebcr('C',5,heads));
     size_t* N = comp_N(p);
+    size_t* l_dash = comp_l_dash(p);
     size_t* L_dash = comp_L_dash(p);
+
     for(int i=0;i<n;i++){
-        printf("\n%d\t%zu\t%zu\t%zu\n",i,z[i],N[i],L_dash[i]);
+        printf("\n%d\t%zu\t%zu\t%zu\n",i,N[i],L_dash[i],l_dash[i]);
     }
     //strrev(p);
-    printf("%s\n",rev_p);
+    //printf("%s\n",rev_p);
     printf("%s\n",p);
     return EXIT_SUCCESS;
 }   
