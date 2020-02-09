@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include <time.h>
 
 ////////////////// C translation of provided Z-algorithm code /////////////////
 //input : pattern p
@@ -106,7 +107,6 @@ size_t ebcr(char x, size_t pi,  node** heads){
     if(x != 'A' || x!= 'G' || x!='C' ||x!='T'){
         return 0;
     }
-
     int idx_x = chartoidx(x);
     node * x_list = heads[idx_x];
     while(x_list != NULL){
@@ -179,7 +179,7 @@ size_t sgsr(size_t* L, size_t* l, int i,int n){
 /*****************************************************************************/
 
 ///////////////////// Boyer-Moore ////////////////////////////////////////////
-
+static int comparisons = 0;
 int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t* L, size_t m, int  n){
     size_t occur_count = 0;
     size_t k = n-1;
@@ -187,6 +187,7 @@ int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t* 
         int i = n-1;
         size_t h = k;
         while(i>=0 && p[i] == t[h]){
+            comparisons ++;  // comparisons resulting in match
             i = i-1; 
             h = h-1;
         }
@@ -201,6 +202,7 @@ int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t* 
             }
         }
         else{
+            comparisons++; // comparisons resulting in mismatch
             size_t ebcr_pos = ebcr(t[h],i,heads);
             size_t ebcr_shift = ebcr_pos == 0 ? 1 : i - ebcr(t[h],i,heads);
 
@@ -219,39 +221,38 @@ int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t* 
 
 /***************************************************************************/
 /////////////////////////// Read FASTA File ///////////////////////////////////
-long int
-read_fasta_file(const char *filename, char **the_sequence) {
-  FILE *in;
-  char *buffer, *current_position;
-  long int file_size, remaining_space, line_length;
+long int read_fasta_file(const char *filename, char **the_sequence) {
+    FILE *in;
+    char *buffer, *current_position;
+    long int file_size, remaining_space, line_length;
 
-  in = fopen(filename, "rb"); // open to read in binary (one big chunk)
-  if (in == NULL)
-    return 0;
+    in = fopen(filename, "rb"); // open to read in binary (one big chunk)
+    if (in == NULL)
+        return 0;
 
-  // get the file size
-  fseek(in, 0, SEEK_END); // seek from zero to the end
-  file_size = ftell(in); // the size is how far we moved...
-  rewind(in); // and then move back to the start
+    // get the file size
+    fseek(in, 0, SEEK_END); // seek from zero to the end
+    file_size = ftell(in); // the size is how far we moved...
+    rewind(in); // and then move back to the start
 
-  // allocate memory to contain the whole file:
-  buffer = (char *)malloc(sizeof(char)*file_size);
-  if (buffer == NULL) // check that the allocation succeeded
-    return 0;
+    // allocate memory to contain the whole file:
+    buffer = (char *)malloc(sizeof(char)*file_size);
+    if (buffer == NULL) // check that the allocation succeeded
+        return 0;
 
-  current_position = buffer;
-  remaining_space = file_size;
-  while ((line_length = getline(&current_position,
+    current_position = buffer;
+    remaining_space = file_size;
+    while ((line_length = getline(&current_position,
                                 &remaining_space, in)) != -1) {
-    if (*current_position != '>') {
-      // subtract 1 below because getline includes the '\n'
-      current_position += (line_length - 1);
-      remaining_space -= (line_length - 1);
+        if (*current_position != '>') {
+        // subtract 1 below because getline includes the '\n'
+        current_position += (line_length - 1);
+        remaining_space -= (line_length - 1);
+        }
     }
-  }
 
-  *the_sequence = buffer;
-  return file_size - remaining_space;
+    *the_sequence = buffer;
+    return file_size - remaining_space;
 }
 
 
@@ -278,9 +279,15 @@ int main(const int argc, char *const argv[]) {
     size_t* l_dash = comp_l_dash(p);
     printf("\n");
     size_t* L_dash = comp_L_dash(p);
-
+    
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
     int count = Boyer_Moore(t,p,heads,l_dash,L_dash,m,n);
-    printf("Number of matches found: %d\n",count);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+
+    printf("Total Matches found:\t%d\nChar comparisons:\t%d\nTime taken in seconds:\t%lf\n",count,comparisons,cpu_time_used);
     free(heads);
     free(l_dash);
     free(L_dash);
