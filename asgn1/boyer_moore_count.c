@@ -179,7 +179,7 @@ size_t sgsr(size_t* L, size_t* l, int i,int n){
 /*****************************************************************************/
 
 ///////////////////// Boyer-Moore ////////////////////////////////////////////
-static int comparisons = 0;
+static long int comparisons = 0;
 int Boyer_Moore (const char* t, const char* p, node** heads, size_t* l, size_t* L, size_t m, int  n){
     size_t occur_count = 0;
     size_t k = n-1;
@@ -287,7 +287,7 @@ int main(const int argc, char *const argv[]) {
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
-    printf("Total Matches found:\t%d\nChar comparisons:\t%d\nTime taken in seconds:\t%lf\n",count,comparisons,cpu_time_used);
+    printf("Total Matches found:\t%d\nChar comparisons:\t%ld\nTime taken in seconds:\t%lf\n\n",count,comparisons,cpu_time_used);
     free(heads);
     free(l_dash);
     free(L_dash);
