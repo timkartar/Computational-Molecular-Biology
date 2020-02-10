@@ -103,7 +103,7 @@ node** preproc_ebcr(const char* p, int n){
 
 /* Extended Bad Character Rule */
 size_t ebcr(char x, size_t pi,  node** heads){
-    if(x != 'A' || x!= 'G' || x!='C' ||x!='T'){
+    if(x != 'A' &&  x!= 'G' &&  x!='C' && x!='T'){
         return 0;
     }
 
