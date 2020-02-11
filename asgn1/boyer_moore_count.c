@@ -132,6 +132,7 @@ size_t* comp_N(char* p){                                    //reserse p, calcula
         N[i] = Z[n-i-1];
     }
     free(rev_p);
+    free(Z);
     return N;    
 }
 size_t* comp_L_prime(char * p){                              //calculate L' from N using Gusfield's pseudocode
@@ -142,6 +143,7 @@ size_t* comp_L_prime(char * p){                              //calculate L' from
         size_t i = n - N[j];
         L_prime[i] = j;
     }
+    free(N);
     return L_prime;
 }
 size_t * comp_l_prime(char * p){                             //Gusfield left this part as exercise to do in O(n)
@@ -160,6 +162,7 @@ size_t * comp_l_prime(char * p){                             //Gusfield left thi
             }
         }
     }
+    free(N);
     return l_d;
 }
 
@@ -290,5 +293,7 @@ int main(const int argc, char *const argv[]) {
     free(heads);
     free(l_prime);
     free(L_prime);
+    free(p);
+    free(t);
     return EXIT_SUCCESS;
 }   
