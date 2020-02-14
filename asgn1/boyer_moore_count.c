@@ -290,10 +290,5 @@ int main(const int argc, char *const argv[]) {
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
     printf("Total Matches found:\t%d\nChar comparisons:\t%ld\nTime taken in seconds:\t%lf\n\n", count, comparisons, cpu_time_used);
-    free(heads);
-    free(l_prime);
-    free(L_prime);
-    free(p);
-    free(t);
     return EXIT_SUCCESS;
 }   
