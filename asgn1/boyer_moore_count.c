@@ -155,7 +155,7 @@ size_t * comp_l_prime(char * p){                             //Gusfield left thi
     }
     int i = 0;
     for(int j = n-1; j >= 0; j--){
-        if(N[j] == (size_t)j){
+        if(N[j] == (size_t)j+1){
             while(i < n && j < n-i){
                 l_d[i] = j;
                 i++;
@@ -186,7 +186,7 @@ int Boyer_Moore (const char* t, const char* p, node** heads,
     size_t occur_count = 0;
     size_t k = n-1;
     while(k < m){
-        printf("%zu\n",k);
+        //printf("%zu\n",k);
         int i = n-1;
         size_t h = k;
         //printf("%c\t %c\n",p[i],t[h]);
@@ -213,7 +213,7 @@ int Boyer_Moore (const char* t, const char* p, node** heads,
             size_t ebcr_pos = ebcr(t[h],i,heads);
             size_t ebcr_shift = ebcr_pos == 0 ? 1 : i - ebcr(t[h],i,heads);
 
-            size_t sgsr_shift = i - sgsr(L,l,i+1,n);
+            size_t sgsr_shift = n - 1 - sgsr(L,l,i+1,n);
             size_t shift =  (ebcr_shift > sgsr_shift) ? ebcr_shift : sgsr_shift;
             /*if(i == n-1 ){
                 k = k + 1;
