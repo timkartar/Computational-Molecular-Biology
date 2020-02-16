@@ -169,7 +169,7 @@ size_t * comp_l_prime(char * p){                             //Gusfield left thi
 /* The strong good suffix rule */
 size_t sgsr(size_t* L, size_t* l, int i,int n){                         //Returns position i which should be at current position 
     if(i == n){                                                         //of p[n-1] after shifting. (0-based index)
-        return (size_t)i-1;
+        return (size_t)n-2;
     }
     if(L[i]==0){
         return l[i];    
@@ -186,18 +186,15 @@ int Boyer_Moore (const char* t, const char* p, node** heads,
     size_t occur_count = 0;
     size_t k = n-1;
     while(k < m){
-        //printf("%zu\n",k);
         int i = n-1;
         size_t h = k;
-        //printf("%c\t %c\n",p[i],t[h]);
         while(i>=0 && p[i] == t[h]){
             comparisons ++;                                             // comparisons resulting in match
             i = i-1; 
             h = h-1;
-            //printf("%zu\t%c\t%c\n",k,p[i],t[h]);
         }
         if (i == -1){
-            printf("match found at %zu\n",k - n + 2);
+            //printf("match found at %zu\n",k - n + 2);
             occur_count += 1;
             if(l[1] == 0){
                 k = k + 1;
@@ -205,25 +202,15 @@ int Boyer_Moore (const char* t, const char* p, node** heads,
             else{
                 k = k + n - 1 - l[1];
             }
-            //printf("checking for next at : %zu\n",k + 1);
         }
         else{
-            //printf("k:\t%zu\n",k); 
             comparisons++;                                              // comparisons resulting in mismatch
             size_t ebcr_pos = ebcr(t[h],i,heads);
             size_t ebcr_shift = ebcr_pos == 0 ? 1 : i - ebcr(t[h],i,heads);
 
             size_t sgsr_shift = n - 1 - sgsr(L,l,i+1,n);
             size_t shift =  (ebcr_shift > sgsr_shift) ? ebcr_shift : sgsr_shift;
-            /*if(i == n-1 ){
-                k = k + 1;
-            }
-            else{
-                k = k + shift;
-            }*/
             k = k + shift;
-            //printf("k:\t%zu\t%zu\t%zu\t%zu\n",k,ebcr_shift,sgsr_shift,shift);
-            //printf("checking for next at : %zu\n",k + 1);
         }
     }
     return occur_count;
@@ -285,21 +272,11 @@ int main(const int argc, char *const argv[]) {
         fprintf(stderr, "problem reading file: %s\n", argv[2]);
         return -1;
     }    
-    char* rev_p = (char*)malloc(sizeof(char)*n);
-      for(int i=0;i<n;i++){
-          rev_p[i] = p[n-i-1];
-      }
     node** heads  = preproc_ebcr(p,n);
     
-    size_t* z = comp_z(rev_p);
-    size_t* N = comp_N(p);
     size_t* l_prime = comp_l_prime(p);
     size_t* L_prime = comp_L_prime(p);
 
-    for(int i=0;i<n;i++){
-        printf("\n%d\t%zu\t%zu\t%zu\t%zu\n",i,z[i],N[i],L_prime[i],l_prime[i]);
-    }
-    printf("\n\n");
     
     clock_t start, end;
     double cpu_time_used;

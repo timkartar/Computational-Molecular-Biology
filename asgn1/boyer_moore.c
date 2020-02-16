@@ -156,7 +156,7 @@ size_t * comp_l_prime(char * p){
     }
     int i = 0;
     for (int j = n-1; j >= 0; j--){
-        if(N[j] == (size_t)j){
+        if(N[j] == (size_t)j + 1){
             while(i < n && j < n-i){
                 l_d[i] = j;
                 i++;
@@ -169,7 +169,7 @@ size_t * comp_l_prime(char * p){
 /* The strong good suffix rule */
 size_t sgsr(size_t* L, size_t* l, int i, int n){
     if(i == n){
-        return (size_t)n-1;
+        return (size_t)n-2;
     }
     if(L[i] == 0){
         return l[i];    
@@ -209,12 +209,7 @@ int Boyer_Moore (const char* t, const char* p, node** heads,
 
             size_t sgsr_shift = n - 1 - sgsr(L,l,i+1,n);
             size_t shift =  (ebcr_shift > sgsr_shift) ? ebcr_shift : sgsr_shift;
-            if(i == n-1){
-                k = k + 1;
-            }
-            else{
-                k = k + shift;
-            }
+            k = k + shift;
         }
     }
     return occur_count;
