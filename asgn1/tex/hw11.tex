@@ -1,0 +1,177 @@
+\documentclass[a4paper,11pt]{article}
+\newcommand\tab[1][0.6cm]{\hspace*{#1}}
+\usepackage{mlsubmit}
+\usepackage{amsmath}
+\begin{document}
+
+\title{MATH505 HW 11  }
+\author{Raktim Mitra \\ \small{USC ID: 1487079265\hspace{10pt} email: raktimmi@usc.edu}}
+\maketitle
+\initmlsubmision{1}                              					% assignment number
+								{Raktim Mitra}      						           		% your name
+								{150562}																		% your roll number
+								
+\section*{Q1. }
+\textbf{a.}\\
+\begin{align*}
+ P(X= j | U= u) &= \binom{10}{j}u^j(1-u)^{10-j}\hspace{10pt} [Answer]\\
+ P(X = j | U) &= \binom{10}{j}U^j(1-U)^{10-j}\hspace{10pt} [Answer]
+\end{align*}
+\textbf{b.}\\
+\begin{align*}
+ P(X = j) &= \bE[P(X = j | U)]\\
+ &= \int_{-\infty}^{\infty}\binom{10}{j}u^j(1-u)^{10-j}f(u)du\\
+  &= \binom{10}{j}\int_{0}^{1}u^j(1-u)^{10-j}\frac{1}{1}du\\
+    &= \binom{10}{j}\int_{0}^{1}u^j(1-u)^{10-j}du\\
+    &= \frac{10!}{j!(10-j)!}\frac{j!(10-j)!}{11!} = \frac{1}{11} \hspace{10pt} [Answer]
+\end{align*}
+
+\textbf{c.}\\
+since, $P(X = j) = \frac{1}{11}$. and X can take 11 possible values i.e. $0,1,...,10$. i.e. $X$ is discrete uniform.\\
+Hence, $E(X) = \frac{10(10+1)}{2\cdot11} = 5$ [Answer]\\
+$Var(X) =  \frac{10(10+1)(20+1)}{6\cdot 11} - 5^2 =  35 - 25 = 10$ [Answer]
+\begin{center}
+ -------------------
+\end{center}
+
+\section*{Q2.}
+\textbf{a.}\\
+$X_1 = Y_1Y_3; X_2 = (Y_2 - Y_1)Y_3; X_3 = (1-Y_2)Y_3$
+ \[
+   J(y_1,y_2,y_3)=
+  \left| {\begin{array}{ccc}
+    y_3 & 0 & y_1\\
+    -y_3& y_3 &y_2-y_1 \\
+    0& -y_3 & 1-y_2\\
+  \end{array} } \right| = y_3^2\left| {\begin{array}{ccc}
+    1 & 0 & y_1\\
+    -1& 1 &y_2-y_1 \\
+    0& -1 & 1-y_2\\
+  \end{array} } \right|
+\]\\
+$J(y_1,y_2,y_3)= y_3^2\Big{[} (1-y_2 + y_2-y_1) + 0 + y_1(1)\Big{]} = y_3^2 $\\
+Therefore,
+\begin{align*}
+ f(y_1,y_2,y_3) &= f_{X_1,X_2,X_3}(y_1y_3,(y_2 - y_1)y_3,(1-y_2)y_3)|J(y_1,y_2,y_3)|\\
+ &= e^{-y_1y_3}e^{-(y_2 - y_1)y_3}e^{-(1-y_2)y_3}y_3^2\\
+ &= e^{-y_3}y_3^2 \hspace{10pt}[Answer]\\
+\end{align*}
+\textbf{b.}\\
+$f(y_1,y_2,y_3) = e^{-y_3}y_3^2 = \frac{1}{2!}y_3^2e^{-y_3} 2!(\frac{1}{1})^2\chi(y_1,y_2) = f_{Y_3}(y_3)f_{Y_1,Y_2}(y_1,y_2)$ \\
+where, $f_{Y_3} = Gamma(3,1) = \frac{1}{2!}y_3^2e^{-y_3}$ [Proved]\\
+and $f_{Y_1,Y_2}(y_1,y_2) = 2!(\frac{1}{1})^2\chi(y_1,y_2)$ while $Y_1,Y_2 \in (0,1)$ which is  distribution of ordered statistics of 2 indpendent uniform r.v.s. [Proved]
+
+Clearly, $P(Y_1 \leq y_1,Y_2 \leq y_2,Y_3 \leq y_3) = \int_{-\infty}^{y_1}\int_{-\infty}^{y_2}\int_{-\infty}^{y_3}\frac{1}{2!}y_3^2e^{-y_3} 2!(\frac{1}{1})^2\chi(y_1,y_2)dy_1dy_2dy_3$\\
+$= \sum_{y_3=0}^{y_3}\frac{1}{2!}y_3^2e^{-y_3}\int_{0}^{y_1}\int_{0}^{y_2}2!(\frac{1}{1})^2\chi(y_1,y_2)dy_1dy_2 = P(Y_3 \leq y_3)P(Y_1 \leq y_1,Y_2 \leq y_2)$\\
+$\implies Y_3$ is indpendent of $(Y_1,Y_2)$ [Proved]
+\begin{center}
+ -------------------
+\end{center}
+
+\section*{Q3.}
+\textbf{a.}\\
+let, $\vX$ be the column vector with elements $X_is$ and $\bar{\vX}$ be the column vector with elements $\bE[X_i]s$. Then B can be written as $\bE[(\vX - \bar{\vX})(\vX - \bar{\vX})^T]$. also, $\vz \in \bR^d$ be any row vector with entries $z_is$.
+\begin{align*}
+ \vB &= \bE[(\vX - \bar{\vX})(\vX - \bar{\vX})^T]\\
+ \implies \vz\vB\vz^T &= \vz\bE[(\vX - \bar{\vX})(\vX - \bar{\vX})^T]\vz^T\\
+ &= \bE[\vz(\vX - \bar{\vX})(\vX - \bar{\vX})^T\vz^T]\\
+\end{align*}
+Now, imagine, Y be a random variable given by $Y = \vz(\vX -\bar{\vX})  = (\vX -\bar{\vX})^T\vz^T.$\\
+Notice, $\bE[Y] = \sum_{i=1}^{d}z_i\bE[X_i] - z_i\bE[X_i] = 0$.\\
+Hence, Variance of Y is simply $\bE[Y^2] = \bE[\vz(\vX -\bar{\vX})(\vX -\bar{\vX})^T\vz^T]$
+Therefore,
+\begin{align*}
+ \implies \vz\vB\vz^T &= \bE[\vz(\vX - \bar{\vX})(\vX - \bar{\vX})^T\vz^T]\\
+ &= Var(Y) \geq 0 \\
+ \implies \vz\vB\vz^T &\geq 0 \hspace{10pt} \forall \vz \in \bR^d \hspace{10pt} [Proved]
+\end{align*}
+\textbf{b.}\\
+We know, for a multivariate normal: $M_{\vX}(\vt) = e^{(\vt\boldsymbol{\mu} + \frac{1}{2}\vt\vB\vt^T)}$ where $\vt$ is a row vector.\\
+Now, 
+$Y = \vc\vX$. $\vc$ is a  row vector and $\vX$ is column vector of dim dxd.\\
+now,
+\begin{align*}
+ M_Y(t) &= \bE[e^{tY}]\\
+ &=\bE[e^{t\vc\vX}]\\
+ &=\bE[e^{(t\vc)\vX}]\\
+ &=M_{\vX}(t\vc)\\
+ \implies M_Y(t) &= e^{(t\vc\boldsymbol{\mu} + \frac{1}{2}\vt\vc\vB\vc^T\vt^T)}\\
+\end{align*}
+Clearly, $M_Y(t)$ is moment generating function of a gaussian with params $\hat{\mu} = \vc\boldsymbol{\mu}; \hat{\Sigma} = \vc\vB\vc^T$. 
+Hence, $Y \sim \cN(\vc\boldsymbol{\mu},  \vc\vB\vc^T)$ [Answer]
+
+% $\vc \in \bR^d$ be the row vector with entries $c_is$. Therefore, $Y = \sum_{i=1}^{d}c_iX_i = \vc\vX$, where, $\vX$ is the column vector with elements $X_is$.
+% 
+% % We can show that sum of two jointly gaussian r.v. s is a gaussian by computing the integration:\\
+% % $f_{X+Y}(z) = \int_{-\infty}^{\infty}f(x,z-x)dx $ , to get $X+Y \sim N(\mu_X+\mu_Y,\sigma_X^2+\sigma_Y^2+2\rho\sigma_X\sigma_Y)$. This is generalisable for any number of gaussian random variables. also, 
+% It can be shown that $ \vc\vX$ is gaussian distributed !
+% with mean:\\ $\mu_Y = \bE[\vc\vX] = \vc \boldsymbol{\mu} = \sum_{i=1}^{d}c_i\mu_i$ [Answer]\\
+% and variance: 
+% \begin{align*}
+% Var(\vc\vX) &= \bE[\vc(\vX - \boldsymbol{\mu})(\vX - \boldsymbol{\mu})^T\vc^T]\\
+% &=\bE[\vc\vZ\vD\vD^T\vZ^T\vc^T] = \bE[\vc\vZ\vB\vZ^T\vc^T] = (\vc\vc^T)\bE[\vZ\vB\vZ^T]\\
+% &=(\sum_{i=1}^{d}c_i^2)\bE[\sum_{i=1}^{d}c_i^2z_i^2 + 2\sum_{i < j}b_{ij}z_iz_j]\\
+% &=(\sum_{i=1}^{d}c_i^2)(\sum_{i=1}^{d}b_{ii}\bE[z_i^2] + 2\sum_{i < j}b_{ij}\bE[z_i]\bE[z_j])\\
+% &=(\sum_{i=1}^{d}c_i^2)(\sum_{i=1}^{d}b_{ii}1 + 0) = (\sum_{i=1}^{d}c_i^2)(\sum_{i=1}^{d}b_{ii}) \hspace{10pt} [Answer]
+% \end{align*}
+\begin{center}
+ ------------------
+\end{center}
+\section*{Q4.}
+\textbf{a.}\\
+\begin{align*}
+ h(x) &= \frac{d}{dx}[P(X\leq x | X > 0)]\\
+ &= \frac{d}{dx} \frac{P(X\leq x, X > 0)}{P(X > 0)}\\
+ &= \frac{d}{dx} \frac{\int_{0}^{x}f(x)dx}{\frac{1}{2}}\\
+ &= 2\frac{d}{dx} \int_{0}^{x}f(x)dx = 2 f(x)\\
+ \implies  h(x) &= \sqrt{\frac{2}{\pi}}e^{-\frac{x^2}{2}} \\
+ \implies \bE[X  |X > 0] &= \int_{x=0}^{\infty}xh(x)dx = \sqrt{\frac{2}{\pi}}\int_{x=0}^{\infty}xe^{-\frac{x^2}{2}}dx \\
+ &= \sqrt{\frac{2}{\pi}}\int_{t=0}^{\infty}e^{-t}dt = \sqrt{\frac{2}{\pi}}[-e^{-t}]_{0}^{\infty} = \sqrt{\frac{2}{\pi}} \hspace{10pt} [Answer]
+\end{align*}
+\textbf{b.}\\
+mgf $M_X(s) = \bE[e^{sX}]$
+\begin{align*}
+ M_X(s) &= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty}e^{sx}e^{-\frac{x^2}{2}}dx\\
+ &=  \frac{1}{\sqrt{2\pi}}e^{\frac{s^2}{2}}\int_{-\infty}^{\infty}e^{-\frac{(x-s)^2}{2}}dx\\
+ &= e^{\frac{s^2}{2}} \int_{-\infty}^{\infty} f_{\cN(s,1)}(x)dx = e^{\frac{s^2}{2}}\cdot 1\\
+ \implies  M_X(s) &= e^{\frac{s^2}{2}} \hspace{10pt} [Answer]
+\end{align*}
+Now, we cam write expansion of the MGF to get all moments:
+$e^{\frac{s^2}{2}} = \sum_{i=0}^{\infty}\frac{(\frac{s^2}{2})^i}{i!}$
+Hence, nth moment $\mu_n = M_X^{(n)}(0) = \sum_{i=\floor{n/2}}^{\infty} \frac{(2i)(2i-1)...(2i - n + 1)}{2^ii!}s^{2i - n} |_{s=0} = \begin{cases}
+                             \frac{(2n)i}{2^nn!} & \text{if $n$ is even}\\
+                             0 &\text{if $n$ is odd}
+                             \end{cases}$ [Answer]
+\begin{center}
+-----------------\\
+\end{center}
+
+\section*{Q5.}
+\textbf{a.}\\
+\begin{align*}
+ G_V(s) = \bE[s^V] &= \sum_{v=1}^{N}s^vP(V=v)\\
+ &= \sum_{v=1}^{N}s^v\frac{1}{N+1} = \frac{1}{N+1}\sum_{v=1}^{N}s^v \hspace{10pt} [Answer]
+\end{align*}
+\textbf{b.}\\
+\begin{align*}
+ G_{X|U=u}(s) = \bE[s^X | U=u] &= \sum_{x=1}^{N}s^xP(X=x  |U = u)\\
+ &= \sum_{x=1}^{N}s^x \binom{N}{x}u^x(1-u)^{n-x}\\
+\implies G_{X|U}(s) = \bE[s^X | U] &= \sum_{x=1}^{N}s^x \binom{N}{x}U^x(1-U)^{n-x}\\
+\implies G_{X}(s) = \bE[s^X] = \bE[\bE[s^X | U]] &= \bE[\sum_{x=1}^{N}s^x \binom{N}{x}U^x(1-U)^{n-x}]\\
+&= \sum_{x=1}^{N}s^x \binom{N}{x}\bE[U^x(1-U)^{n-x}]] \\
+&= \sum_{x=1}^{N}s^x \binom{N}{x} \int_{0}^{1}u^{x}(1-u)^{n-x}\cdot 1 du\\
+&=  \sum_{x=1}^{N}s^x \binom{N}{x} \frac{x!(n-x)!}{(n+1)!}\\
+&= \sum_{x=1}^{N}s^x \frac{n!}{x!(n-x)!}\frac{x!(n-x)!}{(n+1)!} = \frac{1}{N+1}\sum_{x=1}^{N}s^x \hspace{5pt}[Answer]\\
+\end{align*}
+
+$\implies G_{X}(s) = \frac{1}{N+1}\sum_{x=1}^{N}s^x$ which is exactly same as $G_V$ where $V$ was discrete uniform between $\{0,1..,N\}$.\\
+Therefore, X is uniform on $\{0,1..,N\}$. [Proved]
+
+
+
+\begin{center}
+
+ ------------------ -----------------
+\end{center}
+
+\end{document}
