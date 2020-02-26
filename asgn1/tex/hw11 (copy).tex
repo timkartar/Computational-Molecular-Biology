@@ -114,15 +114,48 @@ Hence, time complexity of Multiset Matching is O(m).
 \begin{center}
  -------------------
 \end{center}
-
 \section*{Q3. (Chapter 6, exercise 1.)}
 \textbf{Q}: Construct an infinite family of strings over a fixed alphabet, where the total length of the
 edge-labels on their suffix trees grows faster than O(m) (m is the length of the string). That
 is, show that linear-time suffix tree algorithms would be impossible if edge-labels were
 written explicitly on the edges.
 \\
-\\
-\textbf{Ans}: 
+\textbf{Ans}: Let, $B^k = BBB...B$ ($k$ times)
+Then the following  family of strings over the alphabet $\Sigma = \{A,B\}$ is a required example. 
+\begin{align*}
+ S_n  &= AB^0AAB^1AAB^2A...AB^nA \\
+ S_0 &= AA\\
+ S_1 &= AAABA\\
+ S_2 &= AAABAABBA\\
+\end{align*}
+Note: $S_n$ has length $(2 + 3 + 4 + ... + (n+2)) = \frac{(n+2)(n+3)}{2}-1 = O(n^2)$.\\Suffix trees for $S_0,S_1, S_2$:
+\begin{figure}[H]
+
+\centering
+\includegraphics[width=.3\textwidth]{AA.png}\hfill
+\includegraphics[width=.3\textwidth]{AAABA.png}\hfill
+\includegraphics[width=.3\textwidth]{AAABAABBA.png}
+
+\caption{suffix trees for AA, AAABA and AAABAABBA}
+
+\label{fig:figure3}
+\end{figure}
+We can simply look at how total length of edge labels scales w.r.t lengths of $S_n$:
+\begin{center}
+\begin{tabular}{ | c | c | c | }
+\hline
+$n$ & length($S_n$) & total edge label length(excluding \$s) \\ 
+\hline
+\hline
+ 0 & 2 & 2\\
+ \hline
+ 1 & 5 & 11 \\  
+ \hline
+ 2 & 9 & 33 \\   
+\hline
+ \end{tabular}
+\end{center}
+Clearly total length of edge labels grows much faster than length of the strings.
 \begin{center}
  ------------------
 \end{center}
@@ -130,7 +163,22 @@ written explicitly on the edges.
 \textbf{Q}: Given a set S of k strings, we want to find every string in S that is a substring of some other string in S. Assuming that the total length of all the strings is n, give an O(n)-time algorithm to solve this problem. 
 \\
 \\
-\textbf{Ans}:
+\textbf{Ans}: We can build a suffix tree in linear time and check if there's an inner node that corresponds to a full string (constant time per node).
+
+Assume we are given strings $S_1,S_2...,S_k$
+
+Build a generalized suffix tree of $S_1\$_1S_2\$_2...S_k\$_k$ with k distinct terminal markers $\$_1,...,\$_k \notin \Sigma$.   
+
+This can be done in linear time.
+
+Assuming that we label leaves with (i,j) if they represent suffix $S_i[j..|S_i|]$ of $S_i$, traverse the tree and find those 𝑛 leaves labelled (i,0), i.e. the leaves that correspond to the full strings.
+
+This takes time linear in the tree size, which itself is linear in the input size.
+
+The descendant leaves of the parent of (i,0) (which is reached by an edge labelled $\$_i$) represent all matches from the set; this follows from the basic invariant of suffix trees. Find any one match by descending to any leaf (but (i,0)).
+
+This again takes linear time.
+
 
 \begin{center}
 -----------------\\
