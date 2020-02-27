@@ -1,54 +1,45 @@
-searching for pattern ACACACACACACACACACACACACACACACACACACACAC in rabbit...
+searching for pattern ACACACACACACACACACACACACACACACACACACACAC ...
+Total Matches found:	614
+Char comparisons:	539841559
+Time taken in seconds:	12.111216
 
-Total Matches found:	458
-Char comparisons:	539511027
-Time taken in seconds:	11.358707
+searching for pattern GAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA ...
+Total Matches found:	15195
+Char comparisons:	473455211
+Time taken in seconds:	9.997119
 
-searching for pattern GAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA in rabbit...
+searching for pattern CAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGC ...
+Total Matches found:	10
+Char comparisons:	524563641
+Time taken in seconds:	12.610945
 
-Total Matches found:	8754
-Char comparisons:	472813722
-Time taken in seconds:	9.864382
-
-searching for pattern CAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGC in rabbit...
-
-Total Matches found:	8
-Char comparisons:	542559490
-Time taken in seconds:	12.227293
-
-searching for pattern GACGACGACGACGACGACGACGACGACGACGACGACGACG in rabbit...
-
+searching for pattern GACGACGACGACGACGACGACGACGACGACGACGACGACG ...
 Total Matches found:	0
-Char comparisons:	521873604
-Time taken in seconds:	11.869247
+Char comparisons:	523252832
+Time taken in seconds:	13.063918
 
-searching for pattern ACAGACAGACAGACAGACAGACAGACAGACAGACAGACAG in rabbit...
-
-Total Matches found:	0
-Char comparisons:	553763694
-Time taken in seconds:	12.070820
-
-searching for pattern AACGAACGAACGAACGAACGAACGAACGAACGAACGAACG in rabbit...
-
-Total Matches found:	0
-Char comparisons:	522146317
-Time taken in seconds:	11.860539
-
-searching for pattern AAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGC in rabbit...
-
+searching for pattern ACAGACAGACAGACAGACAGACAGACAGACAGACAGACAG ...
 Total Matches found:	1
-Char comparisons:	543653753
-Time taken in seconds:	12.069891
+Char comparisons:	507595359
+Time taken in seconds:	11.662198
 
-searching for pattern CCACCAGGGG in rabbit...
+searching for pattern AACGAACGAACGAACGAACGAACGAACGAACGAACGAACG ...
+Total Matches found:	0
+Char comparisons:	523598924
+Time taken in seconds:	12.964050
 
+searching for pattern AAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGC ...
+Total Matches found:	1
+Char comparisons:	525172676
+Time taken in seconds:	12.699295
+
+searching for pattern CCACCAGGGG ...
 Total Matches found:	4037
-Char comparisons:	2357971670
-Time taken in seconds:	59.082443
+Char comparisons:	1206400435
+Time taken in seconds:	31.577522
 
-searching for pattern GGAGGACCCC in rabbit...
-
+searching for pattern GGAGGACCCC ...
 Total Matches found:	2648
-Char comparisons:	2290299857
-Time taken in seconds:	57.693562
+Char comparisons:	1188278808
+Time taken in seconds:	30.708362
 
