@@ -1,0 +1,45 @@
+searching for pattern ACACACACACACACACACACACACACACACACACACACAC ...
+Total Matches found:	27877
+Char comparisons:	667532560
+Time taken in seconds:	15.362110
+
+searching for pattern GAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA ...
+Total Matches found:	4365
+Char comparisons:	544768912
+Time taken in seconds:	11.428859
+
+searching for pattern CAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGC ...
+Total Matches found:	103
+Char comparisons:	643608461
+Time taken in seconds:	15.230797
+
+searching for pattern GACGACGACGACGACGACGACGACGACGACGACGACGACG ...
+Total Matches found:	7
+Char comparisons:	640093906
+Time taken in seconds:	15.678619
+
+searching for pattern ACAGACAGACAGACAGACAGACAGACAGACAGACAGACAG ...
+Total Matches found:	31
+Char comparisons:	628499838
+Time taken in seconds:	14.257126
+
+searching for pattern AACGAACGAACGAACGAACGAACGAACGAACGAACGAACG ...
+Total Matches found:	0
+Char comparisons:	640427323
+Time taken in seconds:	15.587231
+
+searching for pattern AAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGC ...
+Total Matches found:	45
+Char comparisons:	645121107
+Time taken in seconds:	15.222942
+
+searching for pattern CCACCAGGGG ...
+Total Matches found:	3391
+Char comparisons:	1449562317
+Time taken in seconds:	36.682713
+
+searching for pattern GGAGGACCCC ...
+Total Matches found:	2437
+Char comparisons:	1423537154
+Time taken in seconds:	36.751045
+
