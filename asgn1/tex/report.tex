@@ -2,6 +2,13 @@
 \newcommand\tab[1][0.6cm]{\hspace*{#1}}
 \usepackage{mlsubmit}
 \usepackage{amsmath}
+\newenvironment{absolutelynopagebreak}
+  {\par\nobreak\vfil\penalty0\vfilneg
+   \vtop\bgroup}
+  {\par\xdef\tpd{\the\prevdepth}\egroup
+   \prevdepth=\tpd}
+\raggedbottom
+
 \begin{document}
 
 \title{MATH578A Assignment 1 }
@@ -12,6 +19,67 @@
 								{150562}																		% your roll number
 								
 \section*{Q1. }
+I chose Rabbit (Oryctolagus cuniculus) genome downloaded from NCBI genome page for rabbit. (\url{https://www.ncbi.nlm.nih.gov/genome/?term=Oryctolagus+cuniculus}).
+
+Results on the test pattern searches are as follows:
+\begin{center}
+\begin{tabular}{ | c | c | c | c |}
+\hline
+Pattern & Occurence & comparisons & runtime(seconds) \\ 
+\hline
+\hline
+ \scriptsize{{ACACACACACACACACACACACACACACACACACACACAC}} & 614 & 539841559 & 12.111216\\
+ \hline
+ \scriptsize{GAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA} & 15195 & 473455211 & 9.997119\\  
+ \hline
+ \scriptsize{CAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGC} & 10 & 524563641 & 12.610945\\   
+\hline
+ \scriptsize{GACGACGACGACGACGACGACGACGACGACGACGACGACG} & 0 & 523252832 & 13.063918\\  
+ \hline
+ \scriptsize{ACAGACAGACAGACAGACAGACAGACAGACAGACAGACAG} & 1 & 507595359 & 11.662198\\   
+\hline
+\scriptsize{AACGAACGAACGAACGAACGAACGAACGAACGAACGAACG} & 0 & 523598924 & 12.964050\\
+ \hline
+ \scriptsize{AAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGC} & 1 & 525172676 & 12.699295\\  
+ \hline
+ \scriptsize{CCACCAGGGG} & 4037 & 1206400435 & 31.577522\\   
+\hline
+\scriptsize{GGAGGACCCC} & 2648 & 1188278808 & 30.708362\\   
+\hline
+ \end{tabular}
+\end{center}
+
+Results on he test sequences on HG38 (human genome) taken from (\url{https://www.ncbi.nlm.nih.gov/genome/?term=Homo+sapiens}):
+\begin{center}
+\begin{tabular}{ | c | c | c | c |}
+\hline
+Pattern & Occurence & comparisons & runtime(seconds) \\ 
+\hline
+\hline
+ \scriptsize{{ACACACACACACACACACACACACACACACACACACACAC}} & 27877 & 667532560 & 15.362110\\
+ \hline
+ \scriptsize{GAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGAGA} & 4365 & 544768912 & 11.428859\\  
+ \hline
+ \scriptsize{CAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGCAGC} & 103 & 643608461 & 15.230797\\   
+\hline
+ \scriptsize{GACGACGACGACGACGACGACGACGACGACGACGACGACG} & 7 & 640093906 & 15.678619\\  
+ \hline
+ \scriptsize{ACAGACAGACAGACAGACAGACAGACAGACAGACAGACAG} & 31 & 628499838 & 14.257126\\   
+\hline
+\scriptsize{AACGAACGAACGAACGAACGAACGAACGAACGAACGAACG} & 0 & 640427323 & 15.587231\\
+ \hline
+ \scriptsize{AAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGCAAGC} & 45 & 645121107 & 15.222942\\  
+ \hline
+ \scriptsize{CCACCAGGGG} & 3391 & 1449562317 & 36.682713\\   
+\hline
+\scriptsize{GGAGGACCCC} & 2437 & 1423537154 & 36.751045\\   
+\hline
+ \end{tabular}
+\end{center}
+Chosen ALU sequence: {\scriptsize{``GGCGGGCAGATCATGAGGTCAGGAGATCGAGACCATCCTGGCTAACACGG''}}.\\
+In Hg38, Total Matches found:	117\\
+Char comparisons:	1014339834\\
+Time taken in seconds:	30.342192\\
 
 \begin{center}
  -------------------
@@ -26,15 +94,16 @@ Give a solution to this problem that runs in O(m) time. The method should also b
 state, for each position i, the length of the longest substring in T starting at i that can be
 formed from S.
 \\
+\\
 \textbf{Ans}: Let, A[ ] contains unique elements of S. Count[ ] array contains number of occurences of each element of A in S.
-
+\\
 
 Now, we shall construct the array D[ ] where D[i] contains length of the longest substring of T that \underbar{ends} at position i which can be formed by elements from S.
-
+\\
 i ranges from 0 to m-1. 
-
+\\
+\\
 We also need a RunningCount[ ] array similar to Count[ ], which will use to keep track of counts of elements of S faced for D[i].
-
 A, Count, RunningCount all have the length count(unique(S)).
 Note: A.index[c] gives position of char c in A, constant time since A is of constant length assuming alphabet size is constant. 
 Therefore, we can write the following recurrence for D[i].
@@ -46,7 +115,8 @@ Therefore, we can write the following recurrence for D[i].
           &\text{where j is the first occurence of T[i] after i - 1 - D[i-1] }\\&\text{($\uparrow$ case 2b)} \\
           \end{cases} \\ 
          \end{cases}
-         \]
+    \]
+
 For the above recurrence to work properly , we need to update RunningCount in the following manner:
 \[\begin{cases}
             \text{ (case 1) RunningCount[i] = 0 for all i  } \\
@@ -59,9 +129,13 @@ For the above recurrence to work properly , we need to update RunningCount in th
          \] \\
          
 After we fill up the array D we can report all starting occurence position as: \{i - size(S) for  i if D[i] == size(S)\}.
+\begin{center}
+ P.T.O.
+\end{center}
 
-We can also construct length of longest substrings \underbar{starting} at i and formed by elements of S from D. Let, this array be B[ ]. Shown in full pseudocode below:
-
+\begin{absolutelynopagebreak}
+{We can also construct length of longest substrings \underbar{starting} at i and formed by elements of S from D. Let, this array be B[ ]. Shown in full pseudocode below:}
+\end{absolutelynopagebreak}
 \begin{mlalgorithm}[0.9\textwidth]{H}{Multiset Matching }\vskip-2ex
 	\label{algo:tk-means}
 	\begin{algorithmic}[1]
@@ -188,7 +262,7 @@ This again takes linear time.
 \textbf{Q}: For a string S of length n, show how to compute the N(i), L(i), L'(i) and sp, values (discussed in Sections 2.2.4 and 2.3.2) in O(n) time directly from a suffix tree for S.
 \\
 \\
-\textbf{Ans}:
+ \textbf{Ans}:% The structure of a suffix tree of S, implies ``The Z-score at position i of S is the depth of the parent of suffix i.''  
 
 \begin{center}
 
