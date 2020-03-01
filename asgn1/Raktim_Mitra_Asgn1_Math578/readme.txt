@@ -6,7 +6,7 @@ compilation and run instruction:
 
     gcc boyer_moore.c  -o boyer_moore; ./boyer_moore <PATTERN> <PATH TO FASTA>
 
-    gcc boyer_moore_count.c  -o boyer_moore; ./boyer_moore_count <PATTERN> <PATH TO FASTA>
+    gcc boyer_moore_count.c  -o boyer_moore_count; ./boyer_moore_count <PATTERN> <PATH TO FASTA>
 
 
 
@@ -24,3 +24,5 @@ Notes:
     5. Random 50 base pair ALU sequence used : GGCGGGCAGATCATGAGGTCAGGAGATCGAGACCATCCTGGCTAACACGG
 
     6. All result reported as an answer to Q1 in the report.
+    
+    7. boyer_moore_count.c contains detailed comments of each part of the code. 
