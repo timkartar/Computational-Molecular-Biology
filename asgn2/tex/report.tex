@@ -27,7 +27,7 @@
                M[i-1,j-1] + g(s_1[i],s_2[j])
               \end{cases}
 \end{align*}
-Here, $g$ is the scoring matrix with relevant scoring scheme. But we cannot have less than k contiguous matches and/or mismatches. SO, if  we want to take a diagonal step, then it has to be at least k diagonal step. No new restriction on taking a insertion or deletion step. So, modified recursion steps:\\
+Here, $g$ is the scoring matrix with relevant scoring scheme. But we cannot have less than k contiguous matches and/or mismatches. So, if  we want to take a diagonal step, then it has to be at least k diagonal step. No new restriction on taking an= insertion or deletion step. So, modified recursion steps:\\
 \textbf{k-core alignment recursion}\\
 \begin{align*}
  M[i,j] &= max\begin{cases}
@@ -48,7 +48,7 @@ so, for ($s_1[1..k-1]$ and $s_2[1..k-1]$) we have to take only horizontal or ver
 \end{align*}
 With the above recursive definitions, we can initialize the score matrix in the same manner as we did in normal pairwise global alignment (by taking only insertion or deletion paths for the first row and column). Now, we can apply the dynamic programming to calculate all values of M to calculate the required optimal score at $M[n,n]$. And, we can also keep the path pointers in another matrix to do traceback and construct the alignment in a straight forward manner.
 
-Ignoring the modification for first k columns and rows, every entry of the matrix M takes O($k+2$) computation. SO, total complexity is $O((k+2)mn)$ which is $O(kmn)$.
+Ignoring the modification for first k columns and rows, every entry of the matrix M takes O($k+2$) computation. So, total complexity is $O((k+2)mn)$ which is $O(kmn)$.
 \begin{center}
  -------------------
 \end{center}
@@ -113,7 +113,16 @@ Ignoring the modification for first k columns and rows, every entry of the matri
  ------------------
 \end{center}
 \section*{Q4.}
-
+\textbf{Part a.}\\
+T $\_\_$ G C A C C\\
+T $\_\_$ G $\_\_$ A C C\\
+T $\_\_$ G A A C G\\  
+G $\_\_$ G $\_\_$ A C C\\
+G $\_\_$ A $\_\_$ A C C\\
+A A G $\_\_$ A C C\\
+T $\_\_$ G $\_\_$ A C C\\
+\\
+\textbf{Part b.}\\
 \begin{center}
 -----------------\\
 \end{center}
